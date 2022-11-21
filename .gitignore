@@ -36,3 +36,6 @@ docker/local_mariadb/db/
 
 # queryDSL
 src/main/generated/
+
+# mkdocs resources
+src/main/resources/static/docs/*

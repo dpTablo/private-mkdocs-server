@@ -18,7 +18,7 @@ public class SecurityConfiguration {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().mvcMatchers(
             "/",
-            "/docs/**",
+//            "/docs/**",
             "/login",
             "/logout"
         );
@@ -32,13 +32,14 @@ public class SecurityConfiguration {
 
                 .and()
                 .csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().and()
 
                 .authorizeHttpRequests()
 //                    .mvcMatchers("/api/**")
 //                        .hasRole("USER")
-                    .anyRequest().permitAll();
+                    .anyRequest().authenticated()
+
+                .and().formLogin();
 
         return http.build();
     }
