@@ -103,4 +103,30 @@ class UserRepositoryTest {
         var savedMappings = user.getUserRoleMappings();
         assertThat(savedMappings.containsAll(foundUser.getUserRoleMappings())).isTrue();
     }
+
+    @Test
+    @DisplayName("userId, password 매칭 유저 조회")
+    void findByUserIdAndPassword() {
+        //given
+        var now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        var user = User.builder()
+                .userId("dpTablo")
+                .password("password1234")
+                .phoneNumber("01011112222")
+                .name("타블로")
+                .createDate(now)
+                .updateDate(now)
+                .build();
+        userRepository.save(user);
+
+        //when
+        var foundUser = userRepository.findByUserIdAndPassword(user.getUserId(), user.getPassword())
+                .orElseThrow(NullPointerException::new);
+
+        //then
+        assertThat(foundUser).isNotNull();
+        assertThat(foundUser.getUserId()).isEqualTo(user.getUserId());
+        assertThat(foundUser.getPassword()).isEqualTo(user.getPassword());
+    }
 }
